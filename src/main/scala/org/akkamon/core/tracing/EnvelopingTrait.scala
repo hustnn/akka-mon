@@ -1,5 +1,6 @@
 package org.akkamon.core.tracing
 
+import akka.contrib.pattern.ReceivePipeline.Inner
 import org.akkamon.core.ActorStack
 import org.akkamon.core.extension.TraceExtension
 
@@ -11,16 +12,16 @@ import org.akkamon.core.extension.TraceExtension
  */
 trait EnvelopingTrait extends ActorStack {
 
-  pipelineOuter(
-    inner => {
-      case env: Envelope =>
-        // we've got a message that is already wrapped in an envelop. We can send some logging now to
-        // the central trace store, whatever it might be.
-        TraceExtension(context.system).storeTrace(env, sender(), self)
-        receive(env);
-      case x =>
-        // we haven't got an envelope yet
-        receive(x)
-    })
+  pipelineOuter {
+    case env: Envelope =>
+    // we've got a message that is already wrapped in an envelop. We can send some logging now to
+    // the central trace store, whatever it might be.
+      TraceExtension(context.system).storeTrace(env, sender(), self)
+      Inner(env)
+
+    case x =>
+    // we haven't got an envelope yet
+    Inner(x)
+  }
 
 }

@@ -8,7 +8,7 @@ case class Msg(message: String ="hello")
 
 object Main extends App {
 
-  val system = ActorSystem("HelloSystem")
+  val system = ActorSystem("AkkaMonitorSystem")
   val helloActor = system.actorOf(Props[HelloActor], name = "helloactor")
 
   helloActor ! new Msg("s") with Envelope
