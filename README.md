@@ -29,6 +29,8 @@ docker run -v /etc/localtime:/etc/localtime:ro -p 80:80 -p 8125:8125/udp -p 8126
 
 Then, you can see the virsual results at localhost:80 in your browser.
 
+![vistualdemo](https://github.com/hustnn/akka-mon/blob/master/images/dashboard.png)
+
 
 
 
